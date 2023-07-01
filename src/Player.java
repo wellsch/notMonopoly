@@ -27,23 +27,35 @@ public class Player {
      */
     private boolean inJail;
 
+    /*
+    A boolean representing whether the player is still playing.
+     */
+    private boolean playing;
+
     public Player(String name) {
         this.name = name;
         this.square = 0;
         this.money = 1500;
         this.properties = new HashSet<>();
         this.inJail = false;
+        this.playing = true;
     }
 
     public boolean isInJail() {
         return inJail;
     }
 
+    public boolean isPlaying() {
+        return playing;
+    }
+
     public boolean buyProperty(Property property) {
+        // Check cases where this player cannot buy the property.
         if (property.isOwned())
             System.out.println(this.name + " cannot buy " + property.getName() + " as it is already owned.");
         else if (this.money < property.getCost())
             System.out.println(this.name + " cannot buy " + property.getName() + " as you do not have enough money.");
+        // Otherwise allow them to purchase property and update trackers.
         else {
             this.money -= property.getCost();
             this.properties.add(property);
@@ -63,6 +75,7 @@ public class Player {
      * was successfully purchased on a property.
      */
     public boolean buyHouse(Property property) {
+        // Check cases where this player cannot buy a house.
         if (!properties.contains(property))
             System.out.println(this.name + " can not buy a house on " + property.getName() + " as you do not own it.");
         else if (!property.isInMonopoly())
@@ -71,6 +84,7 @@ public class Player {
             System.out.println(this.name + " can not buy a house on " + property.getName() + " as you do not have enough money.");
         else if (property.getNumHouses() == 5)
             System.out.println(this.name + " can not buy a house on " + property.getName() + " as it already has 5 houses.");
+        // Otherwise allow them to purchase a house and update trackers.
         else {
             this.money -= property.getHouseCost();
             System.out.println(this.name + " built a house on " + property.getName() + ". It has " + property.incrementHouses() + " houses now.");
@@ -100,5 +114,19 @@ public class Player {
     public int moveSpaces(int numSpaces) {
         this.square += numSpaces;
         return this.square;
+    }
+
+    /**
+     * Computes the number of railroads owned by the player.
+     *
+     * @return the number of railroads that the player owns.
+     */
+    public int getNumRRs() {
+        int retval = 0;
+        for (Property prop : this.properties) {
+            if (prop instanceof Railroad)
+                retval++;
+        }
+        return retval;
     }
 }

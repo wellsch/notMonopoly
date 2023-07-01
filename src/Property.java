@@ -1,9 +1,4 @@
-public class Property {
-
-    /*
-    String representing the name of the property.
-     */
-    private final String name;
+public class Property extends Square {
 
     /*
     String representing the cost of purchasing the property.
@@ -23,7 +18,6 @@ public class Property {
     /*
     Integer representing the group of properties this belongs to.
      */
-    private final int propGroup;
 
     /*
     Integer representing the number of houses on the property.
@@ -41,15 +35,24 @@ public class Property {
     private Player owner;
 
 
-    public Property(String name, int cost, int houseCost, int rent, int propGroup) {
-        this.name = name;
+    public Property(String name, int cost, int houseCost, int rent) {
+        super(name);
         this.cost = cost;
         this.houseCost = houseCost;
         this.rent = rent;
-        this.propGroup = propGroup;
         this.numHouses = 0;
         this.inMonopoly = false;
         this.owner = null;
+    }
+
+    /**
+     * Returns true because this square is a property.
+     *
+     * @return true because this is a property.
+     */
+    @Override
+    public boolean isProperty() {
+        return true;
     }
 
     public void setInMonopoly(boolean val){
@@ -72,12 +75,12 @@ public class Property {
         return this.owner != null;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
     public int getCost() {
         return this.cost;
+    }
+
+    public int getRent() {
+        return rent;
     }
 
     public int getHouseCost() {
@@ -90,5 +93,9 @@ public class Property {
 
     public int getLandingCost() {
         return this.rent * (int) Math.pow(2, this.numHouses);
+    }
+
+    public Player getOwner() {
+        return owner;
     }
 }
