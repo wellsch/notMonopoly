@@ -74,6 +74,13 @@ public class Property extends Square {
     }
 
     /**
+     * Removes all the houses from this property.
+     */
+    public void zeroHouses() {
+        this.numHouses = 0;
+    }
+
+    /**
      * Increment this properties number of houses.
      *
      * @return the new number of houses.

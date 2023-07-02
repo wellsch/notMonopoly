@@ -98,9 +98,8 @@ public class Player {
      * property
      *
      * @param property the property to buy.
-     * @return a boolean representing success.
      */
-    public boolean buyProperty(Property property) {
+    public void buyProperty(Property property) {
         // Check cases where this player cannot buy the property.
         if (property.isOwned())
             System.out.println(this.name + " cannot buy " + property.getName() + " as it is already owned.");
@@ -111,10 +110,32 @@ public class Player {
             this.money -= property.getCost();
             this.properties.add(property);
             property.setOwner(this);
-            System.out.println(this.name + " successfully purchased " + property.getName() + " for $" + property.getCost() + ".");
-            return true;
+            System.out.println(this.name + " successfully purchased " + property.getName() + " for $" + property.getCost() +
+                    ". They now have $" + this.money + " left.");
         }
-        return false;
+    }
+
+    /**
+     * Attempts to have the player buy the input property
+     * for the input price.
+     *
+     * @param property the property to buy.
+     * @param bid the price to buy it at.
+     */
+    public void buyPropertyVal(Property property, int bid) {
+        // Check cases where this player cannot buy the property.
+        if (property.isOwned())
+            System.out.println(this.name + " cannot buy " + property.getName() + " as it is already owned.");
+        else if (this.money < bid)
+            System.out.println(this.name + " cannot buy " + property.getName() + " as you do not have enough money.");
+            // Otherwise allow them to purchase property and update trackers.
+        else {
+            this.money -= bid;
+            this.properties.add(property);
+            property.setOwner(this);
+            System.out.println(this.name + " successfully purchased " + property.getName() + " for $" + bid +
+                    ". They now have " + this.money + " left.");
+        }
     }
 
     /**
@@ -136,7 +157,8 @@ public class Player {
         // Otherwise allow them to purchase a house and update trackers.
         else {
             this.money -= property.getHouseCost();
-            System.out.println(this.name + " built a house on " + property.getName() + ". It has " + property.incrementHouses() + " houses now.");
+            System.out.println(this.name + " built a house on " + property.getName() + ". It has " + property.incrementHouses() +
+                    " houses now. They now have $" + this.money + " left.");
         }
     }
 
@@ -161,11 +183,9 @@ public class Player {
      * resulting space landed on.
      *
      * @param numSpaces the number of spaces to move.
-     * @return the updated space value.
      */
-    public int moveSpaces(int numSpaces) {
+    public void moveSpaces(int numSpaces) {
         this.square += numSpaces;
-        return this.square;
     }
 
     /**
@@ -233,5 +253,38 @@ public class Player {
      */
     public ArrayList<Property> getProperties() {
         return properties;
+    }
+
+    /**
+     * Pay the input player the input value.
+     *
+     * @param player the player to pay.
+     * @param val the value to pay the player.
+     */
+    public void payPlayer(Player player, int val) {
+        this.money -= val;
+        player.getPaid(val);
+    }
+
+    /**
+     * Receive the input amount of money.
+     *
+     * @param val the amount of money to be paid.
+     */
+    public void getPaid(int val) {
+        this.money += val;
+    }
+
+    /**
+     * Have this player lose the game.
+     */
+    public void lose() {
+        this.playing = false;
+        for (Property property : properties) {
+            property.setOwner(null);
+            property.zeroHouses();
+            property.setInMonopoly(false);
+        }
+        this.properties = null;
     }
 }
