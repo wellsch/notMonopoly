@@ -1,3 +1,6 @@
+/**
+ * A class encapsulating a representation of a railroad square.
+ */
 public class Railroad extends Property {
 
     /**

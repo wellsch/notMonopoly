@@ -1,3 +1,6 @@
+/**
+ * An abstract class encapsulating a square on a monopoly board.
+ */
 public abstract class Square {
 
     /*
@@ -5,6 +8,11 @@ public abstract class Square {
      */
     private final String name;
 
+    /**
+     * Constructs a new square object with the input name.
+     *
+     * @param name the name of this square.
+     */
     public Square(String name) {
         this.name = name;
     }

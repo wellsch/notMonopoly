@@ -1,5 +1,8 @@
-import java.util.HashSet;
+import java.util.ArrayList;
 
+/**
+ * A class encapsulating a player of monopoly.
+ */
 public class Player {
 
     /*
@@ -20,7 +23,7 @@ public class Player {
     /*
     HashSet that contains Property objects owned by the player.
      */
-    private HashSet<Property> properties;
+    private ArrayList<Property> properties;
 
     /*
     Boolean representing whether the player is in jail.
@@ -32,23 +35,45 @@ public class Player {
      */
     private boolean playing;
 
+    /**
+     * Constructs a new player object with the given name.
+     *
+     * @param name the name of this player.
+     */
     public Player(String name) {
         this.name = name;
         this.square = 0;
         this.money = 1500;
-        this.properties = new HashSet<>();
+        this.properties = new ArrayList<>();
         this.inJail = false;
         this.playing = true;
     }
 
+    /**
+     * Returns whether the player is currently in jail.
+     *
+     * @return whether the player is currently in jail.
+     */
     public boolean isInJail() {
         return inJail;
     }
 
+    /**
+     * Returns whether the player is still in the game.
+     *
+     * @return whether the player is still in the game.
+     */
     public boolean isPlaying() {
         return playing;
     }
 
+    /**
+     * Attempts to have the player buy the input
+     * property
+     *
+     * @param property the property to buy.
+     * @return a boolean representing success.
+     */
     public boolean buyProperty(Property property) {
         // Check cases where this player cannot buy the property.
         if (property.isOwned())
@@ -71,10 +96,8 @@ public class Player {
      * the input property.
      *
      * @param property the property to buy a house on.
-     * @return a boolean representing whether a house
-     * was successfully purchased on a property.
      */
-    public boolean buyHouse(Property property) {
+    public void buyHouse(Property property) {
         // Check cases where this player cannot buy a house.
         if (!properties.contains(property))
             System.out.println(this.name + " can not buy a house on " + property.getName() + " as you do not own it.");
@@ -88,9 +111,7 @@ public class Player {
         else {
             this.money -= property.getHouseCost();
             System.out.println(this.name + " built a house on " + property.getName() + ". It has " + property.incrementHouses() + " houses now.");
-            return true;
         }
-        return false;
     }
 
     /**
@@ -99,8 +120,11 @@ public class Player {
      * @return A DiceRoll object representing the roll.
      */
     public DiceRoll rollDice() {
+        // Roll dice
         int dice1 = (int) Math.ceil(Math.random() * 6.0);
         int dice2 = (int) Math.ceil(Math.random() * 6.0);
+
+        // Construct a dice roll object
         return new DiceRoll(dice1 + dice2, dice1 == dice2);
     }
 
@@ -128,5 +152,41 @@ public class Player {
                 retval++;
         }
         return retval;
+    }
+
+    /**
+     * Returns the players name.
+     *
+     * @return the players name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the square that the player is on.
+     *
+     * @return the square that the player is on.
+     */
+    public int getSquare() {
+        return square;
+    }
+
+    /**
+     * Returns the player's money.
+     *
+     * @return the player's money.
+     */
+    public int getMoney() {
+        return money;
+    }
+
+    /**
+     * Returns the list of the players properties.
+     *
+     * @return the list of the players properties.
+     */
+    public ArrayList<Property> getProperties() {
+        return properties;
     }
 }
