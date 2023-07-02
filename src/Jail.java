@@ -9,14 +9,4 @@ public class Jail extends Square {
     public Jail() {
         super("Weiss");
     }
-
-    /**
-     * Returns true because this space is Jail.
-     *
-     * @return true because this space is Jail.
-     */
-    @Override
-    public boolean isJail() {
-        return true;
-    }
 }

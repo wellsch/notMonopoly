@@ -9,14 +9,4 @@ public class GoToJail extends Square {
     public GoToJail() {
         super("Go-To Weiss");
     }
-
-    /**
-     * Returns true because this space is a go-to jail space.
-     *
-     * @return true because this space is a go-to jail space.
-     */
-    @Override
-    public boolean isGoToJail() {
-        return true;
-    }
 }

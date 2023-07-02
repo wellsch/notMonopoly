@@ -56,16 +56,6 @@ public class Property extends Square {
     }
 
     /**
-     * Returns true because this square is a property.
-     *
-     * @return true because this is a property.
-     */
-    @Override
-    public boolean isProperty() {
-        return true;
-    }
-
-    /**
      * Sets the inMonopoly boolean.
      *
      * @param val the value to set inMonopoly to.

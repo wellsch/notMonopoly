@@ -63,4 +63,22 @@ public class Board {
     public Square getSquare(int space) {
         return this.spaces[space];
     }
+
+    /**
+     * Returns the size of the board.
+     *
+     * @return the size of the board.
+     */
+    public int getSize() {
+        return this.spaces.length;
+    }
+
+    /**
+     * Returns the location of the jail square.
+     *
+     * @return the location of the jail square.
+     */
+    public int jailSpace() {
+        return 8;
+    }
 }

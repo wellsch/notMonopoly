@@ -126,16 +126,37 @@ public class Main {
                 // Only let players still in the game play.
                 if (player.isPlaying()) {
                     livePlayers++;
-                    if (!player.isInJail()) {
+                    if (player.notInJail()) {
                         // Print status and options.
                         System.out.println("It is " + player.getName() + "'s turn. They are at "
                                 + board.getSquare(player.getSquare()).getName() + " and have $" + player.getMoney() + ".");
                         System.out.println("Type \"houses\" to view your properties and buy houses, and simply press enter to roll.");
                         inString = input.readLine();
                         // Houses handling
-                        if (inString.equalsIgnoreCase("houses")) {
+                        if (inString.equalsIgnoreCase("houses"))
                             houseHandling(player);
+                        // Rolling handling
+                        // Boolean to allow for doubles.
+                        boolean stillRolling = true;
+                        while (stillRolling) {
+                            DiceRoll roll = player.rollDice();
+                            stillRolling = player.notInJail() && roll.isDoubles();
+                            if (player.notInJail() || roll.isDoubles()) {
+                                if (!player.notInJail()) player.escapeJailRoll();
+                                player.moveSpaces(roll.getSpaces());
+                                if (player.getSquare() >= board.getSize()) player.passGo(board.getSize());
+                                if (board.getSquare(player.getSquare()) instanceof Property) {
+
+                                } else if (board.getSquare(player.getSquare()) instanceof GoToJail)
+                                    player.goToJail(board.jailSpace());
+                                else if (board.getSquare(player.getSquare()) instanceof Jail)
+                                    System.out.println(player.getName() + " is just visiting " + board.getSquare(player.getSquare()).getName() + ".");
+                                else
+                                    System.out.println(player.getName() + " is at " + board.getSquare(player.getSquare()).getName() + ".");
+                            } else
+                                System.out.println("You fail to escape jail!");
                         }
+
                     } else {
                         // Print status and options.
                         System.out.println("It is " + player.getName() + "'s turn. They are at "
@@ -144,9 +165,11 @@ public class Main {
                                 " or simply press enter to try for doubles.");
                         inString = input.readLine();
                         // Houses handling
-                        if (inString.equalsIgnoreCase("houses")) {
+                        if (inString.equalsIgnoreCase("houses"))
                             houseHandling(player);
-                        }
+                        else if (inString.equalsIgnoreCase("pay"))
+                            player.escapeJailPay();
+
                     }
                 }
             }

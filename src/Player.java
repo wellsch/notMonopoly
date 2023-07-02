@@ -49,13 +49,39 @@ public class Player {
         this.playing = true;
     }
 
+    public void goToJail(int jailSquare) {
+        System.out.println(this.name + " has been sent to jail!");
+        this.square = jailSquare;
+        this.inJail = true;
+    }
+
     /**
      * Returns whether the player is currently in jail.
      *
      * @return whether the player is currently in jail.
      */
-    public boolean isInJail() {
-        return inJail;
+    public boolean notInJail() {
+        return !inJail;
+    }
+
+    /**
+     * Has the player escape jail by paying.
+     */
+    public void escapeJailPay() {
+        if (this.money < 50) System.out.println(this.name + " cannot escape jail as they do not have enough money.");
+        else {
+            this.inJail = false;
+            this.money -= 50;
+            System.out.println(this.name + " successfully escaped jail. They now have $" + this.money + ".");
+        }
+    }
+
+    /**
+     * Has the player escape jail after a roll of doubles.
+     */
+    public void escapeJailRoll() {
+        this.inJail = false;
+        System.out.println(this.name + " successfully escaped jail.");
     }
 
     /**
@@ -124,6 +150,8 @@ public class Player {
         int dice1 = (int) Math.ceil(Math.random() * 6.0);
         int dice2 = (int) Math.ceil(Math.random() * 6.0);
 
+        System.out.println(this.name + " rolled a " + dice1 + " and a " + dice2 + ".");
+
         // Construct a dice roll object
         return new DiceRoll(dice1 + dice2, dice1 == dice2);
     }
@@ -138,6 +166,23 @@ public class Player {
     public int moveSpaces(int numSpaces) {
         this.square += numSpaces;
         return this.square;
+    }
+
+    /**
+     * Passes go on a board with totalSpaces spaces.
+     *
+     * @param totalSpaces the total number of spaces
+     *                    in the board.
+     */
+    public void passGo(int totalSpaces) {
+        // Error handling
+        if (this.square < totalSpaces) System.out.println("You did not pass Go!");
+        // Update values
+        else {
+            this.square %= totalSpaces;
+            this.money += 200;
+            System.out.println(this.name + " passed Go. They now have $" + this.money + ".");
+        }
     }
 
     /**
