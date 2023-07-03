@@ -9,7 +9,7 @@ public class Railroad extends Property {
      * @param name the name of this railroad.
      */
     public Railroad(String name) {
-        super(name, 200, 0, 25);
+        super(name, 200, 0, 25, -1);
     }
 
     /**

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * A class encapsulating a player of monopoly.
@@ -112,6 +113,22 @@ public class Player {
             property.setOwner(this);
             System.out.println(this.name + " successfully purchased " + property.getName() + " for $" + property.getCost() +
                     ". They now have $" + this.money + " left.");
+            int neighborhood = 0;
+            HashSet<Property> neighbors = new HashSet<>();
+            for (Property neighbor : properties) {
+                if (neighbor.getPropGroup() == property.getPropGroup()) {
+                    neighborhood++;
+                    neighbors.add(neighbor);
+                }
+            }
+            if (neighborhood == 2) {
+                System.out.print(this.name + " has completed the monopoly including " + property.getName() + " ");
+                property.setInMonopoly(true);
+                for (Property neighbor : neighbors) {
+                    neighbor.setInMonopoly(true);
+                    System.out.print(neighbor.getName() + " ");
+                }
+            }
         }
     }
 

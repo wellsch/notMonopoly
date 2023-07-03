@@ -21,6 +21,7 @@ public class Property extends Square {
     /*
     Integer representing the group of properties this belongs to.
      */
+    private final int propGroup;
 
     /*
     Integer representing the number of houses on the property.
@@ -45,11 +46,12 @@ public class Property extends Square {
      * @param houseCost the cost of a house on the property.
      * @param rent the base rent of the property.
      */
-    public Property(String name, int cost, int houseCost, int rent) {
+    public Property(String name, int cost, int houseCost, int rent, int propGroup) {
         super(name);
         this.cost = cost;
         this.houseCost = houseCost;
         this.rent = rent;
+        this.propGroup = propGroup;
         this.numHouses = 0;
         this.inMonopoly = false;
         this.owner = null;
@@ -159,5 +161,14 @@ public class Property extends Square {
      */
     public Player getOwner() {
         return owner;
+    }
+
+    /**
+     * Returns the property group of this property.
+     *
+     * @return the property group of this property.
+     */
+    public int getPropGroup() {
+        return propGroup;
     }
 }
